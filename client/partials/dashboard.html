@@ -1,0 +1,53 @@
+	<div ng-controller='dashboardController'>
+
+	<h1>Hi {{current_user.name}}</h1> 
+	<a href="" ng-click='logout()'>Logout</a>
+	<!-- {{activities}} -->
+		<form name="form">
+		<label>Title: 
+			<input type="text" name="title" ng-model="newActivity.title" ng-minlength="5" required />
+		</label>
+		<span ng-messages="form.title.$error">
+			<span ng-message="required">Title required</span>
+			<span ng-message="minlength">Title must be longer than 5 characters</span>
+		</span>
+		<br>
+		<label>Description: 
+			<input type="text" name="description" ng-model="newActivity.description" ng-minlength="10" required />
+		</label>
+		<span ng-messages="form.description.$error">
+			<span ng-message="required">Description required</span>
+			<span ng-message="minlength">Description must be longer than 10 characters</span>
+		</span>
+		<br>
+		User:
+		<select ng-model="newActivity._user" name="user">
+			<option value="{{user._id}}" ng-repeat="user in users">{{user.name}}</option>
+		</select>
+		<br>
+		<input type="submit" value="Add to List" ng-click="addActivity(newActivity, current_user)">
+		</form>
+
+		<p>Before I die I want to...</p>
+
+		<table>
+			<tr>
+				<th>Check</th>
+				<th>User</th>
+				<th>Title</th>
+				<th>Description</th>
+				<th>Date</th>
+			</tr>
+			<tr ng-repeat='activity in activities' ng-if='activity.check==false && (activity._creator._id == current_user._id || activity._user._id == current_user._id)'>	
+				<td><input ng-if='activity.check==false' type="checkbox" ng-click='checkBox(activity._id, current_user._id)'></td>
+				<td>{{activity._creator.name}}</td>
+				<td>{{activity.title}}</td>
+				<td>{{activity.description}}</td>
+				<td>{{activity.createdAt}}</td>
+			</tr>
+		</table>
+		<p>List of logged users (Click to view profile): </p>
+	
+		<p ng-repeat="user in users"><a href="#user/{{user._id}}">{{user.name}}</a></p>
+
+	</div>

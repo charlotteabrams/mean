@@ -1,0 +1,24 @@
+<div ng-controller="usersController">
+	<a href="#/dashboard">Home</a> | <a href="#/">Logout</a>
+	<hr>
+	<h4>{{user.name}}'s Bucket List</h4>
+	
+	<div ng-controller='dashboardController'>
+	<h3>Done:</h3>
+	<p ng-repeat="activity in activities" ng-if="activity.check == true && (activity._creator._id == user._id || activity._user._id == user._id)">
+		<!-- <input type="checkbox" ng-if="current_user._id == user._id" checked>  -->{{activity._creator.name}} | {{activity.title}} - {{activity.description}} - {{activity.createdAt | date: 'short'}}
+		<!-- <li ng-if="activity.check == true">{{activity.title}}</li> -->
+	</p>
+	<h3>Pending:</h3>
+	<p ng-repeat="activity in activities" ng-if="activity.check == false && (activity._creator._id == user._id || activity._user._id == user._id)">
+		<input type="checkbox" ng-if="current_user._id == user._id" ng-click="checkBox(activity._id, current_user._id)"> {{activity._creator.name}} | {{activity.title}} - {{activity.description}} - {{activity.createdAt | date: 'short'}}
+		
+		<li ng-if="activity.check == false">{{activity._user.name}} | {{activity.title}} - {{activity.description}} - {{activity.date | date: 'short'}} <button ng-if="current_user._id == user._id" ng-click="checkBox(activity._id)">Check</button></li>
+	</p>
+<!-- 	<ul ng-repeat="activity in activities">
+		<li>{{activity.check}}</li>
+		<li>{{activity._creator._id}} AND {{ current_user._id}}</li>
+		<li>{{activity._user._id}} AND {{current_user._id}}</li>
+	</ul> -->
+	</div>
+</div>
